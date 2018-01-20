@@ -39,7 +39,7 @@ def build_generator(train_directory="dataset",
                                                         batch_size=8)
     return train_generator, valid_generator
 
-def create_callbacks(weight_file="mobilenet_cls.h5"):
+def create_callbacks(weight_file="mobilenet_cls2.h5"):
     from keras.callbacks import ModelCheckpoint
     checkpoint = ModelCheckpoint(weight_file, 
                                  monitor='loss', 
@@ -56,6 +56,6 @@ mobilenet.fit_generator(train_generator,
 #                         validation_data = valid_generator,
 #                         validation_steps = len(valid_generator),
                         callbacks        = create_callbacks(),
-                        epochs=10)
+                        epochs=1)
 
 
