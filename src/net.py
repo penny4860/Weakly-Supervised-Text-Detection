@@ -2,7 +2,7 @@
 from keras.models import Model
 from keras.layers import Dense
 from keras.applications.mobilenet import MobileNet, preprocess_input
-from keras.optimizers import SGD
+from keras.optimizers import Adam
 import numpy as np
 import cv2     
 
@@ -18,9 +18,8 @@ def mobilenet_binary_classifier():
     x = Dense(2, activation='softmax', init='uniform')(x)
     model = Model(model.input, x)
     model.summary()
-    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.5, nesterov=True)
-    # optimizer = Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-    model.compile(loss = 'categorical_crossentropy', optimizer = sgd, metrics=['accuracy'])
+    optimizer = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+    model.compile(loss = 'categorical_crossentropy', optimizer = optimizer, metrics=['accuracy'])
     return model
 
 def pretrained_path_to_tensor(img_path):
