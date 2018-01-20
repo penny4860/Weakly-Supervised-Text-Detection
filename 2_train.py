@@ -41,10 +41,10 @@ def build_generator(train_directory="dataset",
 
 def create_callbacks(weight_file="mobilenet_cls2.h5"):
     from keras.callbacks import ModelCheckpoint
-    checkpoint = ModelCheckpoint(weight_file, 
+    checkpoint = ModelCheckpoint("weights.{epoch:02d}-{val_loss:.2f}.h5", 
                                  monitor='loss', 
                                  verbose=1, 
-                                 save_best_only=True, 
+                                 save_best_only=False,
                                  mode='min', 
                                  period=1)
     return [checkpoint]
