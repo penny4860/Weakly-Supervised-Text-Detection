@@ -1,19 +1,14 @@
 
 
-from keras.models import load_model
-from keras.models import Sequential, Model
-from keras.layers import Dropout, Flatten, Dense
+from keras.models import Model
+from keras.layers import Dense
 from keras.applications.mobilenet import MobileNet, preprocess_input
 from keras.optimizers import SGD
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2     
-from keras.applications.resnet50 import ResNet50, preprocess_input
-from keras.applications.mobilenet import MobileNet, preprocess_input
 
 from keras.preprocessing import image    
-from keras.models import Model   
-import sys
 
 def mobilenet_binary_classifier():
     # build the VGG16 network
