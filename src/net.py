@@ -18,7 +18,7 @@ def mobilenet_binary_classifier():
     x = Dense(2, activation='softmax', init='uniform')(x)
     model = Model(model.input, x)
     model.summary()
-    optimizer = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+    optimizer = Adam(lr=1e-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
     model.compile(loss = 'categorical_crossentropy', optimizer = optimizer, metrics=['accuracy'])
     return model
 
