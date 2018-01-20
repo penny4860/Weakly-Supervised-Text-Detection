@@ -40,30 +40,39 @@ def write_cifar10_file(directory=DATASET_FOLDER):
 
 
 def write_positive(directory=DATASET_FOLDER):
-    fname = "train_32x32.mat"
-    if os.path.exists(fname):
-        print("{} is already exists in project.".format(fname))
-    else:
-        download(url="http://ufldl.stanford.edu/housenumbers/train_32x32.mat",
-                 fname=fname)
-    mat = loadmat(fname)
-    mat = loadmat("positive.mat")
-    images = mat["X"]
-    images = np.rollaxis(images, 3, 0)
- 
-    print("===================================================================")    
-    print(images.min(), images.max())
-    print("===================================================================")    
- 
-    labels = np.zeros((len(images), 1), dtype=np.int) + 1
-    return images[:n_samples], labels[:n_samples]
+    def get_images():
+        from src.utils import download
+        from scipy.io import loadmat
+        import numpy as np
+    
+        fname = "train_32x32.mat"
+        if os.path.exists(fname):
+            print("{} is already exists in project.".format(fname))
+        else:
+            download(url="http://ufldl.stanford.edu/housenumbers/train_32x32.mat",
+                     fname=fname)
+        mat = loadmat(fname)
+        images = mat["X"]
+        images = np.rollaxis(images, 3, 0)
+        print(images.min(), images.max())
+        return images
+    
+    images = get_images()
+    x_train = images[:50000]
+    x_test = images[50000:60000]
+    
+    train_dir = os.path.join(directory, "train", "text")
+    for i, img in enumerate(x_train):
+        to_file(img, train_dir, fname="{}.png".format(i+1))
+    
+    valid_dir = os.path.join(directory, "val", "text")
+    for i, img in enumerate(x_test):
+        to_file(img, valid_dir, fname="{}.png".format(i+1))
 
 
-build_dataset_tree()
-write_cifar10_file()
-
-
-# write_cifar10_file(800, "train", "dataset//train//negative")
-# write_cifar10_file(100, "test", "dataset//val//negative")
+if __name__ == "__main__":
+    build_dataset_tree()
+    write_cifar10_file()
+    write_positive()
 
 
