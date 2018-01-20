@@ -6,18 +6,7 @@ from keras.layers import Dropout, Flatten, Dense
 from keras.applications.mobilenet import MobileNet, preprocess_input
 from keras.optimizers import SGD
 
-def mobilenet_binary_classifier():
-    # build the VGG16 network
-    model = MobileNet(input_shape=(224, 224, 3), weights='imagenet', include_top=True)
-    model = Model(inputs=model.input, outputs=model.layers[-6].output)
-    x = model.output
-    x = Dense(2, activation='softmax', init='uniform')(x)
-    model = Model(model.input, x)
-    model.summary()
-    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.5, nesterov=True)
-    # optimizer = Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-    model.compile(loss = 'categorical_crossentropy', optimizer = sgd, metrics=['accuracy'])
-    return model
+from src.net import mobilenet_binary_classifier
 
 def build_generator(train_directory="dataset",
                     valid_directory="..//dataset//weakly-digit-detector//val"):
