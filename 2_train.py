@@ -56,6 +56,6 @@ mobilenet.fit_generator(train_generator,
 #                         validation_data = valid_generator,
 #                         validation_steps = len(valid_generator),
                         callbacks        = create_callbacks(),
-                        epochs=1)
+                        epochs=20)
 
 
