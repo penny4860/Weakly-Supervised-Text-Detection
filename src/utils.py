@@ -1,6 +1,6 @@
 
 from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.mobilenet import MobileNet, preprocess_input
+from keras.applications.mobilenet import preprocess_input
 
 def build_generator(train_directory="dataset",
                     valid_directory="..//dataset//weakly-digit-detector//val",
@@ -29,20 +29,10 @@ def create_callbacks(weight_file=None):
         weight_file = "weights.{epoch:02d}.h5"
     
     checkpoint = ModelCheckpoint(weight_file, 
-                                 monitor='loss', 
+                                 monitor='val_loss', 
                                  verbose=1, 
                                  save_best_only=False,
                                  mode='min', 
                                  period=1)
     return [checkpoint]
-
-# mobilenet = mobilenet_binary_classifier()
-# train_generator, valid_generator = build_generator()
-# mobilenet.fit_generator(train_generator,
-#                         steps_per_epoch = len(train_generator),
-# #                         validation_data = valid_generator,
-# #                         validation_steps = len(valid_generator),
-#                         callbacks        = create_callbacks(),
-#                         epochs=20)
-
 
