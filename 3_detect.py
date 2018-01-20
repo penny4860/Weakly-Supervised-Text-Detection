@@ -38,9 +38,9 @@ def pretrained_path_to_tensor(img_path):
     # convert RGB -> BGR, subtract mean ImageNet pixel, and return 4D tensor
     return preprocess_input(x)
 
-def get_detector():
+def get_detector(weights = 'mobilenet_cls.h5'):
     model = mobilenet_binary_classifier()
-    model.load_weights('weights//weights.17.h5')
+    model.load_weights(weights)
     final_weights = model.layers[-1].get_weights()[0]
     final_weights = final_weights.reshape(-1, 2)
     detector = Model(inputs=model.input, outputs=model.layers[-3].output)
@@ -63,9 +63,9 @@ def text_activation_map(image_path="1.png"):
     text_map = np.dot(mat_for_mult.reshape((224*224, 1024)), text_weights).reshape(224,224) # dim: 224 x 224
     return text_map
 
-img_path = "images//573.png"
+# img_path = "images//573.png"
 # img_path = "images//1.png"
-# img_path = "images//t.jpg"
+img_path = "images//t.jpg"
 # img_path = "images//811.png"
 
 
