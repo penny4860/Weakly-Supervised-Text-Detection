@@ -63,7 +63,7 @@ def text_activation_map(image_path="1.png"):
     text_map = np.dot(mat_for_mult.reshape((224*224, 1024)), text_weights).reshape(224,224) # dim: 224 x 224
     return text_map
 
-img_path = "1.png"
+img_path = "images//t.jpg"
 # load image, convert BGR --> RGB, resize image to 224 x 224,
 im = cv2.resize(cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB), (224, 224))
 # plot image
