@@ -35,3 +35,13 @@ def create_callbacks(weight_file=None):
                                  period=1)
     return [checkpoint]
 
+
+def download(url="http://ufldl.stanford.edu/housenumbers/train_32x32.mat", fname="train_32x32.mat"):
+    import requests
+    print("downloading....")
+    r = requests.get(url) # create HTTP response object
+    with open(fname, 'wb') as f:
+        f.write(r.content)    
+    print("download is done")
+
+
