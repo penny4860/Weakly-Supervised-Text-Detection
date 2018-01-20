@@ -3,7 +3,7 @@ from keras.datasets import cifar10
 import cv2
 import os
 
-PROJECT_FOLDER = os.path.dirname(__file__)
+PROJECT_FOLDER = os.getcwd()
 DATASET_FOLDER = os.path.join(os.path.dirname(PROJECT_FOLDER), "weak_dataset")
 
 
