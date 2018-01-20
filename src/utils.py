@@ -26,8 +26,7 @@ def build_generator(train_directory="dataset",
 def create_callbacks(weight_file=None):
     from keras.callbacks import ModelCheckpoint
     if weight_file is None:
-        weight_file = "weights.{epoch:02d}.h5"
-    
+        weight_file = "weights.{epoch:02d}-{val_loss:.2f}.h5"
     checkpoint = ModelCheckpoint(weight_file, 
                                  monitor='val_loss', 
                                  verbose=1, 
