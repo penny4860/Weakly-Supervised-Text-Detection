@@ -1,24 +1,22 @@
 
 from keras.preprocessing.image import ImageDataGenerator
-from keras import optimizers
-from keras.models import Sequential, Model
-from keras.layers import Dropout, Flatten, Dense
 from keras.applications.mobilenet import MobileNet, preprocess_input
 from keras.optimizers import SGD
 
 from src.net import mobilenet_binary_classifier
 
 def build_generator(train_directory="dataset",
-                    valid_directory="..//dataset//weakly-digit-detector//val"):
+                    valid_directory="..//dataset//weakly-digit-detector//val",
+                    preprocess_func=preprocess_input):
 
     # prepare data augmentation configuration
-    train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input,
+    train_datagen = ImageDataGenerator(preprocessing_function=preprocess_func,
                                        rotation_range=20.0,
                                        width_shift_range=0.2,
                                        height_shift_range=0.2,
                                        shear_range=0.4,
                                        zoom_range=0.2)
-    valid_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+    valid_datagen = ImageDataGenerator(preprocessing_function=preprocess_func)
 
     train_generator = train_datagen.flow_from_directory(directory=train_directory,
                                                         target_size=(224, 224),
