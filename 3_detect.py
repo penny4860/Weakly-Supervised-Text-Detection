@@ -21,3 +21,4 @@ if __name__ == "__main__":
     
         write_path = os.path.join("images", "detected", os.path.split(fname)[1])
         plt.savefig(write_path, bbox_inches='tight')
+        print(write_path)
