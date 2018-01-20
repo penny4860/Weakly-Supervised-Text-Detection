@@ -40,7 +40,7 @@ def pretrained_path_to_tensor(img_path):
 
 def get_detector():
     model = mobilenet_binary_classifier()
-    model.load_weights('mobilenet_cls.h5')
+    model.load_weights('weights//weights.17.h5')
     final_weights = model.layers[-1].get_weights()[0]
     final_weights = final_weights.reshape(-1, 2)
     detector = Model(inputs=model.input, outputs=model.layers[-3].output)
@@ -63,7 +63,12 @@ def text_activation_map(image_path="1.png"):
     text_map = np.dot(mat_for_mult.reshape((224*224, 1024)), text_weights).reshape(224,224) # dim: 224 x 224
     return text_map
 
-img_path = "images//t.jpg"
+img_path = "images//573.png"
+# img_path = "images//1.png"
+# img_path = "images//t.jpg"
+# img_path = "images//811.png"
+
+
 # load image, convert BGR --> RGB, resize image to 224 x 224,
 im = cv2.resize(cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB), (224, 224))
 # plot image
@@ -74,23 +79,4 @@ text_map = text_activation_map(img_path)
 # plot class activation map
 ax.imshow(text_map, cmap='jet', alpha=0.5)
 plt.show()
-
-# preds = model.predict(pretrained_path_to_tensor("dataset//text//00001.png"))
-# print(preds)
-# preds = model.predict(pretrained_path_to_tensor("dataset//negative//000022.png"))
-# print(preds)
-# preds = model.predict(pretrained_path_to_tensor("1.png"))
-# print(preds)
-# preds = model.predict(pretrained_path_to_tensor("7.png"))
-# print(preds)
-
-
-
-
-
-
-
-
-
-
 
