@@ -30,6 +30,7 @@ def create_callbacks(weight_file=None):
     checkpoint = ModelCheckpoint(weight_file, 
                                  monitor='val_loss', 
                                  verbose=1, 
+                                 save_weights_only=True,
                                  save_best_only=False,
                                  mode='min', 
                                  period=1)
