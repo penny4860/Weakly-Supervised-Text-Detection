@@ -25,21 +25,26 @@ def to_file(img, directory, fname):
     path = os.path.join(directory, fname)
     print(path)
     cv2.imwrite(path, img)
-    
 
-def write_cifar10_file(directory=DATASET_FOLDER):
+def _get_n_samples(n_samples):
+    n_train_samples = n_samples
+    n_test_samples = int(n_samples / 5)
+    return n_train_samples, n_test_samples
+
+def write_cifar10_file(directory=DATASET_FOLDER, n_samples=50000):
     (x_train, _), (x_test, _) = cifar10.load_data()
-    
+    n_train_samples, n_test_samples = _get_n_samples(n_samples)
+
     train_dir = os.path.join(directory, "train", "negative")
-    for i, img in enumerate(x_train):
+    for i, img in enumerate(x_train[:n_train_samples]):
         to_file(img, train_dir, fname="{}.png".format(i+1))
     
     valid_dir = os.path.join(directory, "val", "negative")
-    for i, img in enumerate(x_test):
+    for i, img in enumerate(x_test[:n_test_samples]):
         to_file(img, valid_dir, fname="{}.png".format(i+1))
 
 
-def write_positive(directory=DATASET_FOLDER):
+def write_positive(directory=DATASET_FOLDER, n_samples=50000):
     def get_images():
         from src.utils import download
         from scipy.io import loadmat
@@ -58,8 +63,10 @@ def write_positive(directory=DATASET_FOLDER):
         return images
     
     images = get_images()
-    x_train = images[:50000]
-    x_test = images[50000:60000]
+    n_train_samples, n_test_samples = _get_n_samples(n_samples)
+    
+    x_train = images[:n_train_samples]
+    x_test = images[50000:50000+n_test_samples]
     
     train_dir = os.path.join(directory, "train", "text")
     for i, img in enumerate(x_train):
@@ -70,9 +77,15 @@ def write_positive(directory=DATASET_FOLDER):
         to_file(img, valid_dir, fname="{}.png".format(i+1))
 
 
+N_SAMPLES = 50   # per class
+
 if __name__ == "__main__":
-    build_dataset_tree()
-    write_cifar10_file()
-    write_positive()
+    import shutil
+    if os.path.exists(DATASET_FOLDER):
+        print("Deleting files....")
+        shutil.rmtree(DATASET_FOLDER)
+    build_dataset_tree(DATASET_FOLDER)
+    write_cifar10_file(n_samples = N_SAMPLES)
+    write_positive(n_samples = N_SAMPLES)
 
 
