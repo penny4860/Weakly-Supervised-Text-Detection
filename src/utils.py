@@ -18,9 +18,12 @@ def build_generator(train_directory="dataset",
     train_generator = train_datagen.flow_from_directory(directory=train_directory,
                                                         target_size=(224, 224),
                                                         batch_size=12)
-    valid_generator = valid_datagen.flow_from_directory(directory=valid_directory,
-                                                        target_size=(224, 224),
-                                                        batch_size=12)
+    if valid_directory is None:
+        valid_generator = None
+    else:
+        valid_generator = valid_datagen.flow_from_directory(directory=valid_directory,
+                                                            target_size=(224, 224),
+                                                            batch_size=12)
     return train_generator, valid_generator
 
 def create_callbacks(weight_file=None):
