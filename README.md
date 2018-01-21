@@ -1,7 +1,8 @@
 
 # Weakly Supervised Text Detector
 
-I am implementing detection algorithm with classification dataset without annotation information.
+I am implementing a detection algorithm with a classification data set that does not have annotation information for the bounding box.
+
 
 ## 1. [SVHN](http://ufldl.stanford.edu/housenumbers/)
 
