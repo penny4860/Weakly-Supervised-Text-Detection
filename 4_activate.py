@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
 
     # Get postive features
-    positive_images = get_list_images(DATASET_TEXT)[20:50]
+    positive_images = get_list_images(DATASET_TEXT)[30:62]
  
     fe = FeatureExtractor()
     conv_maps = fe.get_image_feature(positive_images)
@@ -22,12 +22,16 @@ if __name__ == "__main__":
     from src.activate import activate_label
     import cv2
     import matplotlib.pyplot as plt
-    for img, conv_map in zip(positive_images, conv_maps):
+    for i, (img, conv_map) in enumerate(zip(positive_images, conv_maps)):
         map_ = activate_label(conv_map, 0, model.coef_.reshape(-1,1), image_size=(224,224))
         fig, ax = plt.subplots()
         im = cv2.resize(img, (224, 224))
         ax.imshow(im, alpha=0.6)
         ax.imshow(map_, cmap='jet', alpha=0.4)
-        plt.show()
+        # plt.show()
+        
+        plt.savefig("{}.png".format(i), bbox_inches='tight')
+#         print(write_path)
+
 
 
