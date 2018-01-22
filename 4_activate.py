@@ -22,6 +22,9 @@ if __name__ == "__main__":
     from src.activate import activate_label
     import cv2
     import matplotlib.pyplot as plt
+    
+    # Todo : original image + activation map 을 subplot 으로 출력
+    # Todo : original image size (또는 그 비율로 출력)
     for i, (img, conv_map) in enumerate(zip(positive_images, conv_maps)):
         map_ = activate_label(conv_map, 0, model.coef_.reshape(-1,1), image_size=(224,224))
         fig, ax = plt.subplots()
