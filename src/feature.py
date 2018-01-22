@@ -25,13 +25,10 @@ class FeatureExtractor(object):
         # Returns
             features : array, shape of (N, 2048)
         """
-        features = []
-        for step in range(0, len(images), 32):
-            xs = resize_imgs(images[step:step+32])
-            xs = xs.astype(np.float64)
-            xs = preprocess_input(xs)
-            features.append(self._resnet.predict(xs))
-        features = np.concatenate(features, axis=0)
+        xs = resize_imgs(images)
+        xs = xs.astype(np.float64)
+        xs = preprocess_input(xs)
+        features = self._resnet.predict(xs, verbose=1)
         return features
 
 
