@@ -1,20 +1,19 @@
 #-*- coding: utf-8 -*-
 import os
 import numpy as np
+import cv2
 from src.feature import FeatureExtractor
 
 DATASET_TEXT = "dataset//train//text"
 DATASET_NEGATIVE = "dataset//train//negative"
 
-
-def get_files(folder):
-    files = os.listdir(folder)
-    files = [os.path.join(folder, fname) for fname in files]
-    return files
-
 def get_list_images(folder):
-    import cv2
-    files = get_files(folder)
+    def _get_files(folder):
+        files = os.listdir(folder)
+        files = [os.path.join(folder, fname) for fname in files]
+        return files
+    
+    files = _get_files(folder)
     images = []
     for fname in files:
         img = cv2.imread(fname)
