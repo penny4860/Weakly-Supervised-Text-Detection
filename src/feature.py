@@ -31,6 +31,15 @@ class FeatureExtractor(object):
         features = self._resnet.predict(xs, verbose=1)
         return features
 
+    def get_image_feature(self, images):
+        model = ResNet50(weights='imagenet')
+        image_feature_model = Model(inputs=model.input,
+                                    outputs=(model.layers[-4].output)) 
+        xs = resize_imgs(images)
+        xs = xs.astype(np.float64)
+        xs = preprocess_input(xs)
+        features = image_feature_model.predict(xs)
+        return features
 
 if __name__ == "__main__":
     from keras.preprocessing import image
