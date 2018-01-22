@@ -22,17 +22,17 @@ def get_list_images(folder):
     return images
 
 if __name__ == "__main__":
+
+    fe = FeatureExtractor()
     
     # Get list of images
     positive_images = get_list_images(DATASET_TEXT)
-    negative_images = get_list_images(DATASET_NEGATIVE)
-    
-    fe = FeatureExtractor()
     positive_features = fe.run(positive_images)
-    negative_features = fe.run(negative_images)
-    print(positive_features.shape, negative_features.shape)
-
     np.save("positive_features", positive_features)
-    np.save("negative_features", negative_features)
+    print(positive_features.shape)
 
+    negative_images = get_list_images(DATASET_NEGATIVE)
+    negative_features = fe.run(negative_images)
+    np.save("negative_features", negative_features)
+    print(negative_features.shape)
 
