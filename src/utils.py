@@ -7,7 +7,7 @@ import re
 
 random.seed(111)
 
-def get_list_images(folder, n_samples=1800):
+def get_list_images(folder, n_samples=1800, random_order=True):
     """
     # Args
         folder : str
@@ -16,7 +16,7 @@ def get_list_images(folder, n_samples=1800):
     # Returns
         images : list of image array
     """
-    files = list_files(folder, n_files_to_sample=n_samples)
+    files = list_files(folder, n_files_to_sample=n_samples, random_order=random_order)
     
     images = []
     for fname in files:
