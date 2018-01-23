@@ -6,7 +6,7 @@ from src.utils import get_list_images
 from src.activate import ClsActWorker
 
 DATASET_TEXT = "dataset//train//text"
-
+N_SAMPLES = 100
         
 if __name__ == "__main__":
     
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     worker = ClsActWorker(cls_weights=np.load("weights//svhn_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT, 2, random_order=False)
+    images = get_list_images(DATASET_TEXT, N_SAMPLES, random_order=False)
     
     # 3. 
     maps = worker.run(images)
