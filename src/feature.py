@@ -15,7 +15,7 @@ class FeatureExtractor(object):
     def __init__(self):
         model = ResNet50(weights='imagenet')
         self._resnet = Model(inputs=model.input, 
-                             outputs=(model.layers[-2].output))
+                             outputs=model.layers[-2].output)
     
     def run(self, images):
         """
@@ -31,10 +31,8 @@ class FeatureExtractor(object):
 
     def get_image_feature(self, images):
         xs = self._preprocess(images)
-
-        model = ResNet50(weights='imagenet')
-        image_feature_model = Model(inputs=model.input,
-                                    outputs=(model.layers[-4].output))
+        image_feature_model = Model(inputs=self._resnet.input,
+                                    outputs=self._resnet.layers[-4].output)
         features = image_feature_model.predict(xs)
         return features
     
