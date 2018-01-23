@@ -16,6 +16,7 @@ if __name__ == "__main__":
  
     fe = FeatureExtractor()
     conv_maps = fe.get_image_feature(positive_images)
+    print(conv_maps.shape)
  
     # get AMP layer weights
     model = load_model("cls.pkl")
