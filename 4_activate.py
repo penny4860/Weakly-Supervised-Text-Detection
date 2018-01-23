@@ -31,8 +31,7 @@ class ClsActWorker(object):
 if __name__ == "__main__":
     
     # 1. create worker
-    cls_weights = load_model("cls.pkl").coef_.reshape(-1,1)
-    worker = ClsActWorker(cls_weights)
+    worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
     images = get_list_images(DATASET_TEXT)[30:32]

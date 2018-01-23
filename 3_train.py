@@ -40,5 +40,8 @@ if __name__ == "__main__":
     
     test(clf, X_train, y_train)
     test(clf, X_test, y_test)
+    
+    # (2048, 1)
+    weights = clf.coef_.reshape(-1,1)
+    np.save("cls_weights", weights)
 
-    save_model(clf, "cls.pkl")
