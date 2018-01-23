@@ -1,6 +1,10 @@
 #-*- coding: utf-8 -*-
+import cv2
+import matplotlib.pyplot as plt
+
 from src.feature import FeatureExtractor
 from src.utils import get_list_images, load_model
+from src.activate import activate_label
 
 DATASET_TEXT = "dataset//train//text"
 
@@ -12,14 +16,9 @@ if __name__ == "__main__":
  
     fe = FeatureExtractor()
     conv_maps = fe.get_image_feature(positive_images)
-    print(conv_maps.shape)
  
     # get AMP layer weights
     model = load_model("cls.pkl")
-    from src.activate import activate_label
-    import cv2
-    import matplotlib.pyplot as plt
-    
     for i, (img, conv_map) in enumerate(zip(positive_images, conv_maps)):
         map_ = activate_label(conv_map, 0, model.coef_.reshape(-1,1), image_size=(224,224))
         map_ = cv2.resize(map_, (img.shape[1], img.shape[0]))
