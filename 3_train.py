@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 import numpy as np
 
 def create_xy(pos_features, neg_features):
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
     print(y_train[:50])
 
-    clf = SVC(C=1.0, kernel='linear')
+    clf = LinearSVC(C=1.0)
     clf.fit(X_train, y_train)
     
     test(clf, X_train, y_train)
