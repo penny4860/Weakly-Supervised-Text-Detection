@@ -2,31 +2,11 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
-from src.feature import FeatureExtractor
-from src.utils import get_list_images, load_model
-from src.activate import activate_label
+from src.utils import get_list_images
+from src.activate import ClsActWorker
 
 DATASET_TEXT = "dataset//train//text"
 
-
-class ClsActWorker(object):
-    
-    def __init__(self, cls_weights):
-        self._fe = FeatureExtractor()
-        self._cls_weights = cls_weights
-    
-    def run(self, images):
-        feature_images = self._fe.to_feature_image(images)
-
-        activation_maps = []
-        for feature_image in feature_images:
-            map_ = activate_label(feature_image,
-                                  0,
-                                  self._cls_weights,
-                                  image_size=(224,224))
-            activation_maps.append(map_)
-        return np.array(activation_maps)
         
 if __name__ == "__main__":
     
