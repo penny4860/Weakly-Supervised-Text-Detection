@@ -14,14 +14,15 @@ if __name__ == "__main__":
     worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT)[30:32]
+    images = get_list_images(DATASET_TEXT)[0:4]
     
     # 3. 
     maps = worker.run(images)
+    print(maps.shape)
  
     for img, conv_map in zip(images, maps):
         conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
-        fig, ax = plt.subplots(nrows=2, ncols=2)
+        fig, ax = plt.subplots(nrows=1, ncols=2)
         plt.subplot(1, 2, 1)
         plt.imshow(img, alpha=0.6)
         plt.imshow(conv_map, cmap='jet', alpha=0.4)
