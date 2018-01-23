@@ -8,7 +8,7 @@ I am implementing a detection algorithm with a classification data set that does
 
 The figure below shows the result of SVHN digit detection using the mobilenet architecture and class activation mapping.
 
-<img src="detected.png" height="300">
+<img src="svhn_result.png" height="300">
 
 
 ## References
