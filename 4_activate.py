@@ -14,13 +14,13 @@ if __name__ == "__main__":
     worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT, 10, random_order=False)
+    images = get_list_images(DATASET_TEXT, 100, random_order=False)
     
     # 3. 
     maps = worker.run(images)
     print(maps.shape)
  
-    for img, conv_map in zip(images, maps):
+    for i, (img, conv_map) in enumerate(zip(images, maps)):
         conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
         fig, ax = plt.subplots(nrows=1, ncols=2)
         plt.subplot(1, 2, 1)
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         plt.imshow(conv_map, cmap='jet', alpha=0.4)
         plt.subplot(1, 2, 2)
         plt.imshow(img)
-        plt.show()
-        # plt.savefig("{}.png".format(i), bbox_inches='tight')
-
+        # plt.show()
+        plt.savefig("{}.png".format(i), bbox_inches='tight')
+        print("{}.png saved".format(i))
 
 
