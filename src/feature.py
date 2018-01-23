@@ -40,7 +40,7 @@ class FeatureExtractor(object):
         xs = self._preprocess(images)
         image_feature_model = Model(inputs=self._resnet.input,
                                     outputs=self._resnet.layers[-4].output)
-        features = image_feature_model.predict(xs)
+        features = image_feature_model.predict(xs, verbose=1)
         return features
     
     def _preprocess(self, images):
