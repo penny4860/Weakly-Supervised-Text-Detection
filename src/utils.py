@@ -73,17 +73,3 @@ def get_list_images(folder):
         images.append(img)
     return images
 
-import pickle
-def save_model(clf, model_name="clf.pkl"):
-    # save the classifier
-    with open(model_name, 'wb') as f:
-        pickle.dump(clf, f)
-
-def load_model(model_name="clf.pkl"):
-    with open(model_name, 'rb') as f:
-        clf = pickle.load(f)
-    return clf
-
-
-
-
