@@ -1,7 +1,27 @@
-
+#-*- coding: utf-8 -*-
 
 import numpy as np
 import scipy   
+from src.feature import FeatureExtractor
+
+class ClsActWorker(object):
+    
+    def __init__(self, cls_weights):
+        self._fe = FeatureExtractor()
+        self._cls_weights = cls_weights
+    
+    def run(self, images):
+        feature_images = self._fe.to_feature_image(images)
+
+        activation_maps = []
+        for feature_image in feature_images:
+            map_ = activate_label(feature_image,
+                                  0,
+                                  self._cls_weights,
+                                  image_size=(224,224))
+            activation_maps.append(map_)
+        return np.array(activation_maps)
+
 
 def activate_label(conv_map, cls_label, final_weight, image_size=(224,224)):
     """
