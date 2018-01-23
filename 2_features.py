@@ -13,13 +13,13 @@ if __name__ == "__main__":
     
     # Get postive features
     positive_images = get_list_images(DATASET_TEXT)
-    positive_features = fe.run(positive_images)
+    positive_features = fe.to_feature_vector(positive_images)
     np.save("positive_features", positive_features)
     print(positive_features.shape) # (350, 2048)
 
     # Get negative features
     negative_images = get_list_images(DATASET_NEGATIVE)
-    negative_features = fe.run(negative_images)
+    negative_features = fe.to_feature_vector(negative_images)
     np.save("negative_features", negative_features)
     print(negative_features.shape) # (1225, 2048)
 
