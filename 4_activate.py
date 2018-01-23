@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 
     # Get postive features
-    positive_images = get_list_images(DATASET_TEXT)[30:62]
+    positive_images = get_list_images(DATASET_TEXT)[30:32]
  
     fe = FeatureExtractor()
     conv_maps = fe.get_image_feature(positive_images)
