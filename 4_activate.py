@@ -11,10 +11,10 @@ DATASET_TEXT = "dataset//train//text"
 if __name__ == "__main__":
     
     # 1. create worker
-    worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
+    worker = ClsActWorker(cls_weights=np.load("weights//svhn_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT, 100, random_order=False)
+    images = get_list_images(DATASET_TEXT, 2, random_order=False)
     
     # 3. 
     maps = worker.run(images)
