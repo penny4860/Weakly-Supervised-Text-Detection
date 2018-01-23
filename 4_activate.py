@@ -15,7 +15,7 @@ if __name__ == "__main__":
     positive_images = get_list_images(DATASET_TEXT)[30:32]
  
     fe = FeatureExtractor()
-    conv_maps = fe.get_image_feature(positive_images)
+    conv_maps = fe.to_feature_image(positive_images)
     print(conv_maps.shape)
  
     # get AMP layer weights

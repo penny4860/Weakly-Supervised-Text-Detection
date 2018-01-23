@@ -17,7 +17,7 @@ class FeatureExtractor(object):
         self._resnet = Model(inputs=model.input, 
                              outputs=model.layers[-2].output)
     
-    def run(self, images):
+    def to_feature_vector(self, images):
         """
         # Args
             images : array, shape of (N, H, W, C)
@@ -29,7 +29,14 @@ class FeatureExtractor(object):
         features = self._resnet.predict(xs, verbose=1)
         return features
 
-    def get_image_feature(self, images):
+    def to_feature_image(self, images):
+        """
+        # Args
+            images : array, shape of (N, H, W, C)
+            
+        # Returns
+            features : array, shape of (N, 7, 7, 2048)
+        """
         xs = self._preprocess(images)
         image_feature_model = Model(inputs=self._resnet.input,
                                     outputs=self._resnet.layers[-4].output)
