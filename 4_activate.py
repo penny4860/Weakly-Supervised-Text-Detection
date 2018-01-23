@@ -12,30 +12,32 @@ DATASET_TEXT = "dataset//train//text"
 
 class ClsActWorker(object):
     
-    def __init__(self):
+    def __init__(self, cls_weights):
         self._fe = FeatureExtractor()
+        self._cls_weights = cls_weights
     
     def run(self, images):
         feature_images = self._fe.to_feature_image(images)
 
-        # get AMP layer weights
-        model = load_model("cls.pkl")
         activation_maps = []
         for feature_image in feature_images:
             map_ = activate_label(feature_image,
                                   0,
-                                  model.coef_.reshape(-1,1),
+                                  self._cls_weights,
                                   image_size=(224,224))
             activation_maps.append(map_)
         return np.array(activation_maps)
         
 if __name__ == "__main__":
+    
+    # 1. create worker
+    cls_weights = load_model("cls.pkl").coef_.reshape(-1,1)
+    worker = ClsActWorker(cls_weights)
 
-
-    # Get postive features
+    # 2. get images
     images = get_list_images(DATASET_TEXT)[30:32]
     
-    worker = ClsActWorker()
+    # 3. 
     maps = worker.run(images)
  
     for img, conv_map in zip(images, maps):
