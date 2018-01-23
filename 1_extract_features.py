@@ -10,6 +10,12 @@ DATASET_NEGATIVE = "..//dataset//images"
 if __name__ == "__main__":
 
     fe = FeatureExtractor()
+
+    # Get negative features
+    positive_images = get_list_images(DATASET_TEXT, 1800)
+    positive_features = fe.to_feature_vector(positive_images)
+    np.save("positive_features", positive_features)
+    print(positive_features.shape) # (350, 2048)
     
     # Get negative features
     negative_images = get_list_images(DATASET_NEGATIVE, 1800)
