@@ -14,7 +14,7 @@ if __name__ == "__main__":
     worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT)[0:4]
+    images = get_list_images(DATASET_TEXT, 10, random_order=False)
     
     # 3. 
     maps = worker.run(images)
