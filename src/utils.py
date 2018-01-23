@@ -20,7 +20,6 @@ def get_list_images(folder, n_samples=1800):
     
     images = []
     for fname in files:
-        print(fname)
         img = cv2.imread(fname)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         images.append(img)
