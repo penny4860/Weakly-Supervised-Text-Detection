@@ -25,21 +25,24 @@ class FeatureExtractor(object):
         # Returns
             features : array, shape of (N, 2048)
         """
-        xs = resize_imgs(images)
-        xs = xs.astype(np.float64)
-        xs = preprocess_input(xs)
+        xs = self._preprocess(images)
         features = self._resnet.predict(xs, verbose=1)
         return features
 
     def get_image_feature(self, images):
+        xs = self._preprocess(images)
+
         model = ResNet50(weights='imagenet')
         image_feature_model = Model(inputs=model.input,
-                                    outputs=(model.layers[-4].output)) 
+                                    outputs=(model.layers[-4].output))
+        features = image_feature_model.predict(xs)
+        return features
+    
+    def _preprocess(self, images):
         xs = resize_imgs(images)
         xs = xs.astype(np.float64)
         xs = preprocess_input(xs)
-        features = image_feature_model.predict(xs)
-        return features
+        return xs
 
 if __name__ == "__main__":
     from keras.preprocessing import image
