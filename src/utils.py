@@ -46,6 +46,16 @@ class FileSorter:
         return [ self._tryint(c) for c in re.split('([0-9]+)', s) ]
 
 
+def files_to_images(files):
+    images = []
+    for fname in files:
+        img = cv2.imread(fname)
+        print(fname)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        images.append(img)
+    return images
+
+
 def list_files(directory, pattern="*.*", n_files_to_sample=None, recursive_option=True, random_order=True):
     """list files in a directory matched in defined pattern.
 
