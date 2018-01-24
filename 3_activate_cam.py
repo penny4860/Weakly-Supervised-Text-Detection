@@ -2,19 +2,21 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from src.utils import get_list_images
+from src.utils import list_files, files_to_images
 from src.activate import ClsActWorker
 
 DATASET_TEXT = "dataset//train//text"
 N_SAMPLES = 100
+DATASET_KAIST = "..//dataset//kaist"
         
 if __name__ == "__main__":
     
     # 1. create worker
-    worker = ClsActWorker(cls_weights=np.load("weights//svhn_weights.npy"))
+    worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
-    images = get_list_images(DATASET_TEXT, N_SAMPLES, random_order=False)
+    files = list_files(DATASET_KAIST, "*.jpg", N_SAMPLES, random_order=False)
+    images = files_to_images(files)
     
     # 3. 
     maps = worker.run(images)
