@@ -25,7 +25,7 @@ def test(clf, X, y):
 if __name__ == "__main__":
 
     # 1. load features
-    pos_features = np.load("positive_features.npy")
+    pos_features = np.load("kaist_text_features.npy")
     neg_features = np.load("negative_features.npy")
     print(pos_features.shape, neg_features.shape)
  
