@@ -50,7 +50,6 @@ def files_to_images(files):
     images = []
     for fname in files:
         img = cv2.imread(fname)
-        print(fname)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         images.append(img)
     return images
