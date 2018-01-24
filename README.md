@@ -23,11 +23,17 @@ I used an image with text as a positive sample and a natural scene image without
 
 ## Results
 
-### 1. [SVHN](http://ufldl.stanford.edu/housenumbers/)
+### 1. [The Street View House Numbers Dataset](http://ufldl.stanford.edu/housenumbers/)
 
-The figure below shows the result of SVHN digit detection using the resnet50's features and class activation mapping.
+The results of the class activation mapping of the linear classifier using 350 of the svhn datasets as positive samples.
 
 <img src="svhn_result.png" height="300">
+
+### 2. [Kaist Scene Text Database](http://www.iapr-tc11.org/mediawiki/index.php/KAIST_Scene_Text_Database)
+
+The results of the class activation mapping of the linear classifier using 350 of the kaist text datasets as positive samples.
+
+<img src="kaist_result.png" height="300">
 
 
 ## References
