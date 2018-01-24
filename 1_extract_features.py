@@ -4,7 +4,7 @@ from src.feature import FeatureExtractor
 from src.utils import files_to_images, list_files
 
 DATASET_TEXT = "dataset//train//text"
-
+DATASET_SVT = "..//dataset//svt1"
 DATASET_KAIST = "..//dataset//kaist"
 DATASET_NEGATIVE = "..//dataset//images"
 
@@ -15,10 +15,10 @@ if __name__ == "__main__":
 
 
     # Get negative features
-    files = list_files(DATASET_KAIST, "*.jpg", n_files_to_sample=400, random_order=False)
+    files = list_files(DATASET_SVT, "*.jpg", n_files_to_sample=350, random_order=False)
     positive_images = files_to_images(files)
     positive_features = fe.to_feature_vector(positive_images)
-    np.save("kaist_text_features", positive_features)
+    np.save("svt_features", positive_features)
     print(positive_features.shape) # (350, 2048)
     
 #     # Get negative features
