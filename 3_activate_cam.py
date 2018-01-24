@@ -25,10 +25,10 @@ if __name__ == "__main__":
     for i, (img, conv_map) in enumerate(zip(images, maps)):
         conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
         fig, ax = plt.subplots(nrows=1, ncols=2)
-        plt.subplot(1, 2, 1)
+        plt.subplot(2, 1, 1)
         plt.imshow(img, alpha=0.7)
         plt.imshow(conv_map, cmap='jet', alpha=0.3)
-        plt.subplot(1, 2, 2)
+        plt.subplot(2, 1, 2)
         plt.imshow(img)
         # plt.show()
         plt.savefig("{}.png".format(i), bbox_inches='tight')
