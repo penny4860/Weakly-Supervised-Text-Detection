@@ -7,25 +7,6 @@ import re
 
 random.seed(111)
 
-def get_list_images(folder, n_samples=1800, random_order=True):
-    """
-    # Args
-        folder : str
-            folder which has image files
-    
-    # Returns
-        images : list of image array
-    """
-    files = list_files(folder, n_files_to_sample=n_samples, random_order=random_order)
-    
-    images = []
-    for fname in files:
-        img = cv2.imread(fname)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        images.append(img)
-    return images
-
-
 class FileSorter:
     def __init__(self):
         pass
