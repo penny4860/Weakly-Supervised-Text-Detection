@@ -12,7 +12,7 @@ DATASET_KAIST = "..//dataset//kaist"
 if __name__ == "__main__":
     
     # 1. create worker
-    worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
+    worker = ClsActWorker(cls_weights=np.load("weights//kaist_text_weights.npy"))
 
     # 2. get images
     files = list_files(DATASET_KAIST, "*.jpg", N_SAMPLES, random_order=False)
