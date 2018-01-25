@@ -15,8 +15,9 @@ def resnet50_cam(spatial_size=14, n_classes=2, froze_pretrained_layer=True):
         raise ValueError('spatial size {} is not allowed.'.format(spatial_size))
 
     x = model.output
-    x = Conv2D(1024, (3,3), activation='relu', padding='same', name='cam_conv')(x)
     
+    # Add another conv layer with ReLU + GAP
+    x = Conv2D(1024, (3,3), activation='relu', padding='same', name='cam_conv')(x)
     x = AveragePooling2D(pool_size=(spatial_size,spatial_size),
                          name='cam_average_pooling')(x)
     x = Flatten()(x)
@@ -29,6 +30,7 @@ def resnet50_cam(spatial_size=14, n_classes=2, froze_pretrained_layer=True):
     return model
 
 model = resnet50_cam()
+model.compile()
 model.summary()
 
 
