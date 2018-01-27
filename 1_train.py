@@ -3,7 +3,7 @@ from src.feature import CamModelBuilder
 
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
-from src.utils import build_generator, create_callbacks
+from src.keras_utils import build_generator, create_callbacks
 
 if __name__ == "__main__":
     builder = CamModelBuilder()
