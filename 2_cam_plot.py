@@ -10,23 +10,10 @@ from src.feature import BinearUpSampling2D
 from keras.layers import Reshape, Dense, AveragePooling2D, Flatten, Conv2D
 from keras.models import Model
 
-def get_model():
-    builder = CamModelBuilder()
-    model = builder._resnet
-    model.summary()
-    
-    model = Model(inputs=model.input, outputs=model.get_layer("activation_40").output)
-
-    x = model.output
-    x = AveragePooling2D(pool_size=(14, 14),
-                         name='cam_average_pooling')(x)
-    x = Flatten()(x)
-    x = Dense(2, activation='softmax', name='cam_cls')(x)
-    model = Model(model.input, x)
-    return model
+from src.exp import get_model_14x14
 
 if __name__ == "__main__":
-    model = get_model()
+    model = get_model_14x14()
     last_conv_output = model.layers[-4].output
     x = BinearUpSampling2D((224, 224))(last_conv_output)
     x = Reshape((224 * 224,

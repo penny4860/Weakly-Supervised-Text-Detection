@@ -4,25 +4,10 @@ from src.feature import CamModelBuilder
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
 from src.keras_utils import build_generator, create_callbacks
-
-from keras.models import Model
-from keras.layers import AveragePooling2D, Flatten, Dense
-
-def get_model():
-    builder = CamModelBuilder()
-    model = builder._resnet
-    model = Model(inputs=model.input, outputs=model.get_layer("activation_40").output)
-
-    x = model.output
-    x = AveragePooling2D(pool_size=(14, 14),
-                         name='cam_average_pooling')(x)
-    x = Flatten()(x)
-    x = Dense(2, activation='softmax', name='cam_cls')(x)
-    model = Model(model.input, x)
-    return model
+from src.exp import get_model_14x14
 
 if __name__ == "__main__":
-    model = get_model()
+    model = get_model_14x14()
 
     fixed_layers = []
     for layer in model.layers[:-1]:
