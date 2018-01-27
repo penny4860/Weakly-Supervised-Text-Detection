@@ -6,16 +6,16 @@ from src.utils import list_files, files_to_images
 from src.activate import ClsActWorker
 
 DATASET_TEXT = "dataset//train//text"
-N_SAMPLES = 100
+N_SAMPLES = 32
 DATASET_KAIST = "..//dataset//kaist"
         
 if __name__ == "__main__":
     
     # 1. create worker
-    worker = ClsActWorker(cls_weights=np.load("weights//kaist_text_weights.npy"))
+    worker = ClsActWorker(cls_weights=np.load("cls_weights.npy"))
 
     # 2. get images
-    files = list_files(DATASET_KAIST, "*.jpg", N_SAMPLES, random_order=False)
+    files = list_files(DATASET_TEXT, n_files_to_sample = N_SAMPLES, random_order=False)
     images = files_to_images(files)
     
     # 3. 
@@ -26,10 +26,10 @@ if __name__ == "__main__":
         conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
         fig, ax = plt.subplots(nrows=1, ncols=2)
         plt.subplot(2, 1, 1)
+        plt.imshow(img)
+        plt.subplot(2, 1, 2)
         plt.imshow(img, alpha=0.7)
         plt.imshow(conv_map, cmap='jet', alpha=0.3)
-        plt.subplot(2, 1, 2)
-        plt.imshow(img)
         # plt.show()
         plt.savefig("{}.png".format(i), bbox_inches='tight')
         print("{}.png saved".format(i))
