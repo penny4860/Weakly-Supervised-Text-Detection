@@ -45,8 +45,8 @@ class BinearUpSampling2D(Layer):
         return tf.image.resize_images(x, self._size)
 
     def compute_output_shape(self, input_shape):
-        height = self._size[0] * input_shape[1] if input_shape[1] is not None else None
-        width = self._size[1] * input_shape[2] if input_shape[2] is not None else None
+        height = self._size[0] if input_shape[1] is not None else None
+        width = self._size[1] if input_shape[2] is not None else None
         return (input_shape[0],
                 height,
                 width,
