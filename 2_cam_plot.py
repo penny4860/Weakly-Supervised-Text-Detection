@@ -6,23 +6,51 @@ import numpy as np
 import cv2
 
 
+from src.feature import BinearUpSampling2D
+from keras.layers import Reshape, Dense, AveragePooling2D, Flatten, Conv2D
+from keras.models import Model
+
+def get_model():
+    builder = CamModelBuilder()
+    model = builder._resnet
+    model.summary()
+    
+    model = Model(inputs=model.input, outputs=model.get_layer("activation_40").output)
+
+    x = model.output
+    x = AveragePooling2D(pool_size=(14, 14),
+                         name='cam_average_pooling')(x)
+    x = Flatten()(x)
+    x = Dense(2, activation='softmax', name='cam_cls')(x)
+    model = Model(model.input, x)
+    return model
+
 if __name__ == "__main__":
-    fe = CamModelBuilder()
-    detector = fe.get_cam_model()
-    detector.load_weights("weights.h5", by_name=True)
+    model = get_model()
+    last_conv_output = model.layers[-4].output
+    x = BinearUpSampling2D((224, 224))(last_conv_output)
+    x = Reshape((224 * 224,
+                 1024))(x)
+    x = Dense(2, name="cam_cls")(x)
+    x = Reshape((224, 224, 2))(x)
+    
+    detector = Model(inputs=model.input,
+                  outputs=x)
+    detector.load_weights("weights.07-0.02.h5", by_name=True)
+    detector.summary()
 
     imgs = list_files("dataset//train//text")
-    
+     
     for i, img_path in enumerate(imgs):
         original_img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
-        
+         
         img = cv2.resize(original_img, (224, 224))
         img = np.expand_dims(img, 0).astype(np.float64)
-    
+     
         cam_map = detector.predict(preprocess_input(img))
         cam_map = cam_map[0, :, :, 1]
         cam_map = cv2.resize(cam_map, (original_img.shape[1], original_img.shape[0]))
-        
+         
         plot_img(original_img, cam_map, show=False, save_filename="{}.png".format(i+1))
     
     
