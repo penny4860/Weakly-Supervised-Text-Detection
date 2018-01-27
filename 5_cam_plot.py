@@ -35,10 +35,10 @@ from keras import backend as K
 from keras.engine.topology import Layer
 import tensorflow as tf
 
-class MyLayer(Layer):
+class BinearUpSampling2D(Layer):
 
     def __init__(self, size=(224,224), **kwargs):
-        super(MyLayer, self).__init__(**kwargs)
+        super(BinearUpSampling2D, self).__init__(**kwargs)
         self._size = size
 
     def call(self, x):
@@ -54,9 +54,6 @@ class MyLayer(Layer):
         
 # It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
-    import scipy
-    from keras.layers import UpSampling2D # (size=(2, 2), data_format=None)
-    
     fe = FeatureExtractor()
     model = fe.get_cls_model()
     model.load_weights("weights.04-0.02.h5")
@@ -65,7 +62,7 @@ if __name__ == "__main__":
     # (None, 7, 7, 2048)
     img_path = "dataset//train//text//200.png"
     last_conv_output = model.layers[-4].output
-    img_sized_conv_output = MyLayer((224,224))(last_conv_output)
+    img_sized_conv_output = BinearUpSampling2D((224,224))(last_conv_output)
     
     detector = Model(inputs=model.input,
                      outputs=img_sized_conv_output)
