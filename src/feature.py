@@ -17,7 +17,7 @@ def resize_imgs(imgs):
 
 class FeatureExtractor(object):
     
-    _CLASSIFICATION_LAYER = 'classification_layer'
+    _CLASSIFICATION_LAYER = "cam_cls"
     _N_LABELS = 2
     _INPUT_SIZE = 224
     
