@@ -27,8 +27,6 @@ if __name__ == "__main__":
     img_path = "dataset//train//text//10.png"
     original_img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
     
-    
-    
     img = cv2.resize(original_img, (224, 224))
     img = np.expand_dims(img, 0).astype(np.float64)
 
