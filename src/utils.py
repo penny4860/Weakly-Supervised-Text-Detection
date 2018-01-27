@@ -112,3 +112,15 @@ def build_generator(directory, preprocess_input, augment=False):
                                                         batch_size=8)
     return generator
 
+
+def plot_img(image, cam_map):
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(nrows=1, ncols=3)
+    plt.subplot(3, 1, 1)
+    plt.imshow(image)
+    plt.subplot(3, 1, 2)
+    plt.imshow(cam_map)
+    plt.subplot(3, 1, 3)
+    plt.imshow(image, alpha=0.7)
+    plt.imshow(cam_map, cmap='jet', alpha=0.3)
+    plt.show()
