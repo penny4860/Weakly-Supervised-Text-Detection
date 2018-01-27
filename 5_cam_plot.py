@@ -1,34 +1,8 @@
 #-*- coding: utf-8 -*-
 from src.feature import FeatureExtractor
 
-from keras.models import Model
-from keras.layers import Dense
 from keras.applications.resnet50 import preprocess_input
-from keras.preprocessing import image
 import numpy as np
-
-def pretrained_path_to_tensor(img_path):
-    # loads RGB image as PIL.Image.Image type
-    img = image.load_img(img_path, target_size=(224, 224))
-    # convert PIL.Image.Image type to 3D tensor with shape (224, 224, 3)
-    x = image.img_to_array(img)
-    # convert 3D tensor to 4D tensor with shape (1, 224, 224, 3) and return 4D tensor
-    x = np.expand_dims(x, axis=0)
-    # convert RGB -> BGR, subtract mean ImageNet pixel, and return 4D tensor
-    return preprocess_input(x)
-
-def text_activation_map(detector, final_weights, image_path="1.png"):
-    # (None, 7, 7, 1024)    
-    last_conv_output = detector.predict(pretrained_path_to_tensor(image_path))
-    last_conv_output = np.squeeze(last_conv_output) 
-    import scipy   
-    # bilinear upsampling to resize each filtered image to size of original image 
-    mat_for_mult = scipy.ndimage.zoom(last_conv_output, (32, 32, 1), order=1) # dim: 224 x 224 x 2048
-    # get AMP layer weights
-    text_weights = final_weights[:, 1] # dim: (2048,) 
-    # get class activation map for object class that is predicted to be in the image
-    text_map = np.dot(mat_for_mult.reshape((224*224, 2048)), text_weights).reshape(224,224) # dim: 224 x 224
-    return text_map
 
 
 # It takes about 15 minutes on the CPU.
@@ -37,22 +11,24 @@ if __name__ == "__main__":
     detector = fe.get_cam_model()
     detector.load_weights("weights.04-0.02.h5", by_name=True)
 
+    import cv2
     img_path = "dataset//train//text//200.png"
-    conv_map = detector.predict(pretrained_path_to_tensor(img_path))
+    original_img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
+    img = cv2.resize(original_img, (224, 224))
+    img = np.expand_dims(img, 0).astype(np.float64)
+
+    conv_map = detector.predict(preprocess_input(img))
     print(conv_map.shape)
     conv_map = conv_map[0, :, :, 1]
-
-    import cv2
-    img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
-    conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
+    conv_map = cv2.resize(conv_map, (original_img.shape[1], original_img.shape[0]))
      
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(nrows=1, ncols=3)
     plt.subplot(3, 1, 1)
-    plt.imshow(img)
+    plt.imshow(original_img)
     plt.subplot(3, 1, 2)
     plt.imshow(conv_map)
     plt.subplot(3, 1, 3)
-    plt.imshow(img, alpha=0.7)
+    plt.imshow(original_img, alpha=0.7)
     plt.imshow(conv_map, cmap='jet', alpha=0.3)
     plt.show()
