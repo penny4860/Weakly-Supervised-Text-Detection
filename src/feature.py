@@ -17,6 +17,13 @@ class FeatureExtractor(object):
         self._resnet = Model(inputs=model.input, 
                              outputs=model.layers[-2].output)
     
+    def get_cls_model(self):
+        from keras.layers import Dense
+        x = self._resnet.output
+        x = Dense(2, activation='softmax', name='cam_cls')(x)
+        model = Model(self._resnet.input, x)
+        return model
+
     def to_feature_vector(self, images):
         """
         # Args
