@@ -30,8 +30,33 @@ def text_activation_map(detector, final_weights, image_path="1.png"):
     text_map = np.dot(mat_for_mult.reshape((224*224, 2048)), text_weights).reshape(224,224) # dim: 224 x 224
     return text_map
 
+
+from keras import backend as K
+from keras.engine.topology import Layer
+import tensorflow as tf
+
+class MyLayer(Layer):
+
+    def __init__(self, size=(32,32), **kwargs):
+        super(MyLayer, self).__init__(**kwargs)
+        self._size = size
+
+    def call(self, x):
+        return tf.image.resize_images(x, self._size)
+
+    def compute_output_shape(self, input_shape):
+        height = self._size[0] * input_shape[1] if input_shape[1] is not None else None
+        width = self._size[1] * input_shape[2] if input_shape[2] is not None else None
+        return (input_shape[0],
+                height,
+                width,
+                input_shape[3])
+        
 # It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
+    import scipy
+    from keras.layers import UpSampling2D # (size=(2, 2), data_format=None)
+    
     fe = FeatureExtractor()
     model = fe.get_cls_model()
     model.load_weights("weights.04-0.02.h5")
@@ -39,13 +64,23 @@ if __name__ == "__main__":
     
     # (None, 7, 7, 2048)
     img_path = "dataset//train//text//200.png"
-    detector = Model(inputs=model.input, outputs=model.layers[-4].output)
-    conv_map = text_activation_map(detector, final_weights, img_path)
+    last_conv_output = model.layers[-4].output
+    img_sized_conv_output = UpSampling2D((32, 32))(last_conv_output)
+    detector = Model(inputs=model.input,
+                     outputs=img_sized_conv_output)
     
+    output = detector.predict(pretrained_path_to_tensor(img_path))
+    print(output.shape, final_weights.shape)
+    conv_map = np.dot(output.reshape((224*224, 2048)), final_weights[:,1]).reshape(224,224) # dim: 224 x 224
+
+    
+#     detector = Model(inputs=model.input, outputs=model.layers[-4].output)
+#     conv_map = text_activation_map(detector, final_weights, img_path)
+     
     import cv2
     img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
     conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
-    
+     
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(nrows=1, ncols=3)
     plt.subplot(3, 1, 1)
