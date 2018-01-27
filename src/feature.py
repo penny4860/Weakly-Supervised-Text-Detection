@@ -70,12 +70,6 @@ def resize_imgs(imgs):
     return resized
 
 if __name__ == "__main__":
-    from keras.preprocessing import image
-    img = image.load_img("..//images//dog.png", target_size=(224, 224))
-    x = image.img_to_array(img)
-    x = x.reshape(-1, 224, 224, 3)
-    fe = FeatureExtractor()
-    features = fe.run(x)
-    print(features.shape)
+    pass
 
 
