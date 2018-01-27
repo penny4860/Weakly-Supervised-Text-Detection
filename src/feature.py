@@ -38,11 +38,6 @@ class FeatureExtractor(object):
                       outputs=x)
         return model
 
-    def _preprocess(self, images):
-        xs = resize_imgs(images)
-        xs = xs.astype(np.float64)
-        xs = preprocess_input(xs)
-        return xs
 
 class BinearUpSampling2D(Layer):
 
@@ -60,6 +55,12 @@ class BinearUpSampling2D(Layer):
                 height,
                 width,
                 input_shape[3])
+
+def preprocess(images):
+    xs = resize_imgs(images)
+    xs = xs.astype(np.float64)
+    xs = preprocess_input(xs)
+    return xs
 
 def resize_imgs(imgs):
     resized = []
