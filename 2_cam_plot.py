@@ -21,7 +21,7 @@ def plot_img(image, cam_map):
 if __name__ == "__main__":
     fe = CamModelBuilder()
     detector = fe.get_cam_model()
-    detector.load_weights("weights.04-0.02.h5", by_name=True)
+    detector.load_weights("weights.h5", by_name=True)
 
     import cv2
     img_path = "dataset//train//text//10.png"
