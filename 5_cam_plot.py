@@ -56,25 +56,22 @@ class BinearUpSampling2D(Layer):
 if __name__ == "__main__":
     fe = FeatureExtractor()
     model = fe.get_cls_model()
-    model.load_weights("weights.04-0.02.h5")
-    final_weights = model.layers[-1].get_weights()[0]
-    
-    # (None, 7, 7, 2048)
-    img_path = "dataset//train//text//200.png"
     last_conv_output = model.layers[-4].output
     img_sized_conv_output = BinearUpSampling2D((224,224))(last_conv_output)
+    from keras.layers import Reshape
+    x = Reshape((224*224, 2048))(img_sized_conv_output)
+    x = Dense(2, name='cam_cls')(x)
+    x = Reshape((224, 224, 2))(x)
     
     detector = Model(inputs=model.input,
-                     outputs=img_sized_conv_output)
-    
-    output = detector.predict(pretrained_path_to_tensor(img_path))
-    print(output.shape, final_weights.shape)
-    conv_map = np.dot(output.reshape((224*224, 2048)), final_weights[:,1]).reshape(224,224) # dim: 224 x 224
+                     outputs=x)
+    detector.load_weights("weights.04-0.02.h5", by_name=True)
 
-    
-#     detector = Model(inputs=model.input, outputs=model.layers[-4].output)
-#     conv_map = text_activation_map(detector, final_weights, img_path)
-     
+    img_path = "dataset//train//text//200.png"
+    conv_map = detector.predict(pretrained_path_to_tensor(img_path))
+    print(conv_map.shape)
+    conv_map = conv_map[0, :, :, 1]
+
     import cv2
     img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
     conv_map = cv2.resize(conv_map, (img.shape[1], img.shape[0]))
