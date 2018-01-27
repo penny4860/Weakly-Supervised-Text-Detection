@@ -12,17 +12,22 @@ from keras.models import Model
 
 from src.exp import get_model_14x14
 
-if __name__ == "__main__":
-    model = get_model_14x14()
-    last_conv_output = model.layers[-4].output
-    x = BinearUpSampling2D((224, 224))(last_conv_output)
+
+def cam_model_14x14(input_tensor, last_conv_tensor):
+    x = BinearUpSampling2D((224, 224))(last_conv_tensor)
     x = Reshape((224 * 224,
                  1024))(x)
     x = Dense(2, name="cam_cls")(x)
     x = Reshape((224, 224, 2))(x)
     
-    detector = Model(inputs=model.input,
+    model = Model(inputs=input_tensor,
                   outputs=x)
+    return model
+
+if __name__ == "__main__":
+    model = get_model_14x14()
+    last_conv_output = model.layers[-4].output
+    detector = cam_model_14x14(model.input, last_conv_output)
     detector.load_weights("weights.07-0.02.h5", by_name=True)
     detector.summary()
 
