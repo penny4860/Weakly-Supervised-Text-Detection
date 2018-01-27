@@ -31,40 +31,10 @@ def text_activation_map(detector, final_weights, image_path="1.png"):
     return text_map
 
 
-from keras import backend as K
-from keras.engine.topology import Layer
-import tensorflow as tf
-
-class BinearUpSampling2D(Layer):
-
-    def __init__(self, size=(224,224), **kwargs):
-        super(BinearUpSampling2D, self).__init__(**kwargs)
-        self._size = size
-
-    def call(self, x):
-        return tf.image.resize_images(x, self._size)
-
-    def compute_output_shape(self, input_shape):
-        height = self._size[0] if input_shape[1] is not None else None
-        width = self._size[1] if input_shape[2] is not None else None
-        return (input_shape[0],
-                height,
-                width,
-                input_shape[3])
-        
 # It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
     fe = FeatureExtractor()
-    model = fe.get_cls_model()
-    last_conv_output = model.layers[-4].output
-    img_sized_conv_output = BinearUpSampling2D((224,224))(last_conv_output)
-    from keras.layers import Reshape
-    x = Reshape((224*224, 2048))(img_sized_conv_output)
-    x = Dense(2, name='cam_cls')(x)
-    x = Reshape((224, 224, 2))(x)
-    
-    detector = Model(inputs=model.input,
-                     outputs=x)
+    detector = fe.get_cam_model()
     detector.load_weights("weights.04-0.02.h5", by_name=True)
 
     img_path = "dataset//train//text//200.png"
