@@ -11,7 +11,7 @@ _CLASSIFICATION_LAYER = "cam_cls"
 _N_LABELS = 2
 _INPUT_SIZE = 224
 
-class FeatureExtractor(object):
+class CamModelBuilder(object):
     def __init__(self):
         model = ResNet50(weights='imagenet')
         self._resnet = Model(inputs=model.input, 
