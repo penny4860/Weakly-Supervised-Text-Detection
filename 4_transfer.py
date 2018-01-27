@@ -1,19 +1,15 @@
 #-*- coding: utf-8 -*-
-from src.feature import FeatureExtractor
+from src.feature import CamModelBuilder
 
 from keras.models import Model
 from keras.layers import Dense
 from keras.optimizers import Adam
-from keras.applications.resnet50 import ResNet50, preprocess_input
+from keras.applications.resnet50 import preprocess_input
 
 # It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
-    fe = FeatureExtractor()
-    model = fe._resnet
-    
-    x = model.output
-    x = Dense(2, activation='softmax', name='cam_cls')(x)
-    model = Model(model.input, x)
+    builder = CamModelBuilder()
+    model = builder.get_cls_model()
     model.summary()
 
     for layer in model.layers[:-1]:
@@ -24,7 +20,7 @@ if __name__ == "__main__":
     model.compile(loss = 'categorical_crossentropy',
                   optimizer = optimizer,
                   metrics = ['accuracy'])
-    
+     
     from src.utils import build_generator, create_callbacks
     train_generator = build_generator("dataset//train", preprocess_input, augment=True)
     model.fit_generator(train_generator,
