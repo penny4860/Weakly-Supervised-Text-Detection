@@ -7,20 +7,11 @@ from keras.engine.topology import Layer
 import tensorflow as tf
 from keras.layers import Dense, Reshape
 
-
-def resize_imgs(imgs):
-    resized = []
-    for img in imgs:
-        resized.append(cv2.resize(img, (224,224)))
-    resized = np.array(resized)
-    return resized
+_CLASSIFICATION_LAYER = "cam_cls"
+_N_LABELS = 2
+_INPUT_SIZE = 224
 
 class FeatureExtractor(object):
-    
-    _CLASSIFICATION_LAYER = "cam_cls"
-    _N_LABELS = 2
-    _INPUT_SIZE = 224
-    
     def __init__(self):
         model = ResNet50(weights='imagenet')
         self._resnet = Model(inputs=model.input, 
@@ -28,20 +19,20 @@ class FeatureExtractor(object):
     
     def get_cls_model(self):
         x = self._resnet.output
-        x = Dense(self._N_LABELS,
+        x = Dense(_N_LABELS,
                   activation='softmax',
-                  name=self._CLASSIFICATION_LAYER)(x)
+                  name=_CLASSIFICATION_LAYER)(x)
         model = Model(self._resnet.input, x)
         return model
     
     def get_cam_model(self):
         model = self.get_cls_model()
         last_conv_output = model.layers[-4].output
-        x = BinearUpSampling2D((self._INPUT_SIZE, self._INPUT_SIZE))(last_conv_output)
-        x = Reshape((self._INPUT_SIZE * self._INPUT_SIZE,
+        x = BinearUpSampling2D((_INPUT_SIZE, _INPUT_SIZE))(last_conv_output)
+        x = Reshape((_INPUT_SIZE * _INPUT_SIZE,
                      2048))(x)
-        x = Dense(self._N_LABELS, name=self._CLASSIFICATION_LAYER)(x)
-        x = Reshape((self._INPUT_SIZE, self._INPUT_SIZE, self._N_LABELS))(x)
+        x = Dense(_N_LABELS, name=_CLASSIFICATION_LAYER)(x)
+        x = Reshape((_INPUT_SIZE, _INPUT_SIZE, _N_LABELS))(x)
         
         model = Model(inputs=model.input,
                       outputs=x)
@@ -70,6 +61,12 @@ class BinearUpSampling2D(Layer):
                 width,
                 input_shape[3])
 
+def resize_imgs(imgs):
+    resized = []
+    for img in imgs:
+        resized.append(cv2.resize(img, (224,224)))
+    resized = np.array(resized)
+    return resized
 
 if __name__ == "__main__":
     from keras.preprocessing import image
