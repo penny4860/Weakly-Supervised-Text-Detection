@@ -33,11 +33,7 @@ def text_activation_map(detector, final_weights, image_path="1.png"):
 # It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
     fe = FeatureExtractor()
-    model = fe._resnet
-    
-    x = model.output
-    x = Dense(2, activation='softmax', name='cam_cls')(x)
-    model = Model(model.input, x)
+    model = fe.get_cls_model()
     model.load_weights("weights.04-0.02.h5")
     final_weights = model.layers[-1].get_weights()[0]
     
