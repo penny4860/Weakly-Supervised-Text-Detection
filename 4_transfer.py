@@ -1,20 +1,19 @@
 #-*- coding: utf-8 -*-
 from src.feature import CamModelBuilder
 
-from keras.models import Model
-from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
 
-# It takes about 15 minutes on the CPU.
 if __name__ == "__main__":
     builder = CamModelBuilder()
     model = builder.get_cls_model()
     model.summary()
 
+    fixed_layers = []
     for layer in model.layers[:-1]:
         layer.trainable = False
-        print(layer.name)
+        fixed_layers.append(layer.name)
+    print(fixed_layers)
 
     optimizer = Adam(lr=1e-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
     model.compile(loss = 'categorical_crossentropy',
