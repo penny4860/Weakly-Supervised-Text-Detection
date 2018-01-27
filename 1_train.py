@@ -24,6 +24,6 @@ if __name__ == "__main__":
     train_generator = build_generator("dataset//train", preprocess_input, augment=True)
     model.fit_generator(train_generator,
                         steps_per_epoch = len(train_generator),
-                        callbacks = create_callbacks("resnet_cls.h5"),
+                        callbacks = create_callbacks(),
                         epochs=20)
 
