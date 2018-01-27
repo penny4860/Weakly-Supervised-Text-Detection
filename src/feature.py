@@ -39,32 +39,6 @@ class FeatureExtractor(object):
                       outputs=x)
         return model
 
-    def to_feature_vector(self, images):
-        """
-        # Args
-            images : array, shape of (N, H, W, C)
-            
-        # Returns
-            features : array, shape of (N, 2048)
-        """
-        xs = self._preprocess(images)
-        features = self._resnet.predict(xs, verbose=1)
-        return features
-
-    def to_feature_image(self, images):
-        """
-        # Args
-            images : array, shape of (N, H, W, C)
-            
-        # Returns
-            features : array, shape of (N, 7, 7, 2048)
-        """
-        xs = self._preprocess(images)
-        image_feature_model = Model(inputs=self._resnet.input,
-                                    outputs=self._resnet.layers[-4].output)
-        features = image_feature_model.predict(xs, verbose=1)
-        return features
-    
     def _preprocess(self, images):
         xs = resize_imgs(images)
         xs = xs.astype(np.float64)
