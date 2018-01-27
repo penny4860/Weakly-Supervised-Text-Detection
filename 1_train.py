@@ -11,7 +11,7 @@ if __name__ == "__main__":
     model.summary()
 
     fixed_layers = []
-    for layer in model.layers[:-4]:
+    for layer in model.layers[:-6]:
         layer.trainable = False
         fixed_layers.append(layer.name)
     print(fixed_layers)
