@@ -83,7 +83,7 @@ def list_files(directory, pattern="*.*", n_files_to_sample=None, recursive_optio
             files = files[:n_files_to_sample]
     return files
 
-def plot_img(image, cam_map):
+def plot_img(image, cam_map, show=True, save_filename=None):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(nrows=1, ncols=3)
     plt.subplot(3, 1, 1)
@@ -93,4 +93,10 @@ def plot_img(image, cam_map):
     plt.subplot(3, 1, 3)
     plt.imshow(image, alpha=0.7)
     plt.imshow(cam_map, cmap='jet', alpha=0.3)
-    plt.show()
+    if show:
+        plt.show()
+    if save_filename:
+        plt.savefig(save_filename, bbox_inches='tight')
+        print("{} is saved".format(save_filename))
+
+
