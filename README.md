@@ -1,40 +1,29 @@
 
 # Weakly Supervised Text Detector
 
+<img src="svt1.png" height="300">
+
 I am implementing a detection algorithm with a classification data set that does not have annotation information for the bounding box. I used the class activation mapping proposed in [Learning Deep Features for Discriminative Localization](https://arxiv.org/pdf/1512.04150.pdf).
+
+## Requirements
+
+The description will be added...
 
 ## Usage
 
 The procedure to build detector is as follows:
 
-### 1. Extract Resnet50 Features ([1_extract_features.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/1_extract_features.py))
+### 1. Fine Tuning  ([1_train.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/1_train.py))
 
-This is the process of extracting the final feature vector from pretrained resnet50. The experimental results for the class activation map for resnet50 are not shown in [Learning Deep Features for Discriminative Localization](https://arxiv.org/pdf/1512.04150.pdf). However, resnet50 bypasses the use of FC Layer by using global average pooling. So I used final feature vector in resnet50.
+The description will be added...
 
-I used an image with text as a positive sample and a natural scene image without text as a negative sample.
+### 2. Plot Class Actication Map ([2_cam_plot.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/2_cam_plot.py))
 
-
-### 2. Train Linear Support Vector Machine ([2_train_svm.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/2_train_svm.py))
-
-
-
-### 3. Get Class Activation Map ([3_activate_cam.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/3_activate_cam.py))
-
+The description will be added...
 
 ## Results
 
-### 1. [The Street View House Numbers Dataset](http://ufldl.stanford.edu/housenumbers/)
-
-The results of the class activation mapping of the linear classifier using 350 of the svhn datasets as positive samples.
-
-<img src="svhn_result.png" height="300">
-
-### 2. [Kaist Scene Text Database](http://www.iapr-tc11.org/mediawiki/index.php/KAIST_Scene_Text_Database)
-
-The results of the class activation mapping of the linear classifier using 350 of the kaist text datasets as positive samples.
-
-<img src="kaist_result.png" height="300">
-
+<img src="svt2.png" height="300">
 
 ## References
 
