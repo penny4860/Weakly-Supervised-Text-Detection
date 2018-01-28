@@ -1,7 +1,7 @@
 
 # Weakly Supervised Text Detector
 
-<img src="svt1.png" height="300">
+<img src="sample.png" height="300">
 
 I am implementing a detection algorithm with a classification data set that does not have annotation information for the bounding box. I used the class activation mapping proposed in [Learning Deep Features for Discriminative Localization](https://arxiv.org/pdf/1512.04150.pdf).
 
