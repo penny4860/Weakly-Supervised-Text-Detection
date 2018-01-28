@@ -86,11 +86,16 @@ def list_files(directory, pattern="*.*", n_files_to_sample=None, recursive_optio
 def plot_img(image, cam_map, show=True, save_filename=None):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(nrows=1, ncols=3)
-    plt.subplot(3, 1, 1)
+    plt.subplot(1, 3, 1)
+    plt.axis('off')
+    plt.title("original image")
     plt.imshow(image)
-    plt.subplot(3, 1, 2)
+    plt.subplot(1, 3, 2)
+    plt.axis('off')
+    plt.title("text activation map")
     plt.imshow(cam_map)
-    plt.subplot(3, 1, 3)
+    plt.subplot(1, 3, 3)
+    plt.axis('off')
     plt.imshow(image, alpha=0.7)
     plt.imshow(cam_map, cmap='jet', alpha=0.3)
     if show:
