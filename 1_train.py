@@ -16,7 +16,7 @@ if __name__ == "__main__":
 #         fixed_layers.append(layer.name)
 #     print(fixed_layers)
  
-    optimizer = Adam(lr=1e-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+    optimizer = Adam(lr=1e-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.005)
     model.compile(loss = 'categorical_crossentropy',
                   optimizer = optimizer,
                   metrics = ['accuracy'])
