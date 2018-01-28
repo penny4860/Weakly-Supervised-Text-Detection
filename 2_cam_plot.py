@@ -6,23 +6,43 @@ import numpy as np
 import cv2
 
 
+from src.feature import BinearUpSampling2D
+from keras.layers import Reshape, Dense, AveragePooling2D, Flatten, Conv2D
+from keras.models import Model
+
+from src.exp import get_model_14x14, get_model_conv_14x14
+
+
+def cam_model_14x14(input_tensor, last_conv_tensor):
+    x = BinearUpSampling2D((224, 224))(last_conv_tensor)
+    x = Reshape((224 * 224,
+                 1024))(x)
+    x = Dense(2, name="cam_cls")(x)
+    x = Reshape((224, 224, 2))(x)
+    
+    model = Model(inputs=input_tensor,
+                  outputs=x)
+    return model
+
 if __name__ == "__main__":
-    fe = CamModelBuilder()
-    detector = fe.get_cam_model()
+    model = get_model_conv_14x14()
+    last_conv_output = model.layers[-4].output
+    detector = cam_model_14x14(model.input, last_conv_output)
     detector.load_weights("weights.h5", by_name=True)
+    detector.summary()
 
     imgs = list_files("dataset//train//text")
-    
+     
     for i, img_path in enumerate(imgs):
         original_img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
-        
+         
         img = cv2.resize(original_img, (224, 224))
         img = np.expand_dims(img, 0).astype(np.float64)
-    
+     
         cam_map = detector.predict(preprocess_input(img))
         cam_map = cam_map[0, :, :, 1]
         cam_map = cv2.resize(cam_map, (original_img.shape[1], original_img.shape[0]))
-        
+         
         plot_img(original_img, cam_map, show=False, save_filename="{}.png".format(i+1))
     
     
