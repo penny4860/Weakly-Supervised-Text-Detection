@@ -4,10 +4,12 @@ from src.feature import CamModelBuilder
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
 from src.keras_utils import build_generator, create_callbacks
-from src.exp import get_model_14x14, get_model_conv_14x14
+from src.exp import get_model_conv_14x14
 
 if __name__ == "__main__":
-    model = get_model_conv_14x14()
+    
+    model_builder = CamModelBuilder()
+    model = model_builder.get_cls_model()
     model.summary()
 
 #     fixed_layers = []
