@@ -4,7 +4,7 @@ from keras.applications.resnet50 import preprocess_input
 import numpy as np
 import cv2
 
-from src.feature import CamModelBuilder
+from src.model_builder import CamModelBuilder
 from src.utils import plot_img, list_files
 
 

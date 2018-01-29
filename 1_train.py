@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from src.feature import CamModelBuilder
+from src.model_builder import CamModelBuilder
 
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
