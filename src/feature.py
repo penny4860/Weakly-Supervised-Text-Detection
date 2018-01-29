@@ -5,7 +5,7 @@ from keras.models import Model
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.engine.topology import Layer
 import tensorflow as tf
-from keras.layers import Dense, Reshape
+from keras.layers import AveragePooling2D, Flatten, Dense, Conv2D, BatchNormalization, Activation, Reshape
 
 _CLASSIFICATION_LAYER = "cam_cls"
 _N_LABELS = 2
@@ -13,16 +13,21 @@ _INPUT_SIZE = 224
 
 class CamModelBuilder(object):
     def __init__(self):
-        model = ResNet50(weights='imagenet')
-        self._resnet = Model(inputs=model.input, 
-                             outputs=model.layers[-2].output)
+        pass
     
     def get_cls_model(self):
-        x = self._resnet.output
-        x = Dense(_N_LABELS,
-                  activation='softmax',
-                  name=_CLASSIFICATION_LAYER)(x)
-        model = Model(self._resnet.input, x)
+        model = ResNet50()
+        model = Model(inputs=model.input, outputs=model.get_layer("activation_40").output)
+    
+        x = model.output
+        x = Conv2D(1024, (3,3), padding='same')(x)
+        x = BatchNormalization(axis = 3)(x)
+        x = Activation('relu')(x)
+        x = AveragePooling2D(pool_size=(14, 14),
+                             name='cam_average_pooling')(x)
+        x = Flatten()(x)
+        x = Dense(2, activation='softmax', name='cam_cls')(x)
+        model = Model(model.input, x)
         return model
     
     def get_cam_model(self):
