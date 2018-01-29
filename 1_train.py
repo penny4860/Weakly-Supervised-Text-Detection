@@ -4,7 +4,6 @@ from src.feature import CamModelBuilder
 from keras.optimizers import Adam
 from keras.applications.resnet50 import preprocess_input
 from src.keras_utils import build_generator, create_callbacks
-from src.exp import get_model_conv_14x14
 
 if __name__ == "__main__":
     
