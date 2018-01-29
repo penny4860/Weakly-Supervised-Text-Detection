@@ -40,6 +40,8 @@ cam_cls (Dense)                 (None, 2)            2050        flatten_2[0][0]
 
 * Next, you should train a model that can distinguish between images that contain text and those that do not. The dataset is stored in this repository. To reproduce the result, just run ``1_train.py``.
 
+**Running the ``1_train.py`` will do all of this.**
+
 
 ### 2. Plot Class Actication Map ([2_cam_plot.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/2_cam_plot.py))
 
