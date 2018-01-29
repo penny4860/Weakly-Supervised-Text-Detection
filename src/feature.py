@@ -33,15 +33,15 @@ class CamModelBuilder(object):
     def get_cam_model(self):
         model = self.get_cls_model()
         last_conv_output = model.layers[-4].output
-        x = BinearUpSampling2D((_INPUT_SIZE, _INPUT_SIZE))(last_conv_output)
-        x = Reshape((_INPUT_SIZE * _INPUT_SIZE,
-                     2048))(x)
-        x = Dense(_N_LABELS, name=_CLASSIFICATION_LAYER)(x)
-        x = Reshape((_INPUT_SIZE, _INPUT_SIZE, _N_LABELS))(x)
         
-        model = Model(inputs=model.input,
-                      outputs=x)
-        return model
+        x = BinearUpSampling2D((224, 224))(last_conv_output)
+        x = Reshape((224 * 224, 1024))(x)
+        x = Dense(2, name="cam_cls")(x)
+        x = Reshape((224, 224, 2))(x)
+        
+        detector = Model(inputs=model.input,
+                         outputs=x)
+        return detector
 
 
 class BinearUpSampling2D(Layer):
