@@ -1,26 +1,12 @@
 #-*- coding: utf-8 -*-
-from src.utils import plot_img, list_files
+
 from keras.applications.resnet50 import preprocess_input
 import numpy as np
 import cv2
 
+from src.feature import CamModelBuilder
+from src.utils import plot_img, list_files
 
-from src.feature import BinearUpSampling2D, CamModelBuilder
-from keras.layers import Reshape, Dense, AveragePooling2D, Flatten, Conv2D
-from keras.models import Model
-
-
-
-def cam_model_14x14(input_tensor, last_conv_tensor):
-    x = BinearUpSampling2D((224, 224))(last_conv_tensor)
-    x = Reshape((224 * 224,
-                 1024))(x)
-    x = Dense(2, name="cam_cls")(x)
-    x = Reshape((224, 224, 2))(x)
-    
-    model = Model(inputs=input_tensor,
-                  outputs=x)
-    return model
 
 if __name__ == "__main__":
     detector = CamModelBuilder().get_cam_model()
