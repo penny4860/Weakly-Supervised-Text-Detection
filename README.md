@@ -7,7 +7,10 @@ I am implementing a detection algorithm with a classification data set that does
 
 ## Requirements
 
-The description will be added...
+* python 3.6
+* tensorflow 1.2.1
+* keras 2.1.1
+* opencv 3.3.0
 
 ## Usage
 
