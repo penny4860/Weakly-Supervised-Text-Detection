@@ -18,7 +18,7 @@ The procedure to build detector is as follows:
 
 ### 1. Fine Tuning  ([1_train.py](https://github.com/penny4860/Weakly-Supervised-Text-Detection/blob/master/1_train.py))
 
-**Pre-learned weight files are stored at https://drive.google.com/drive/folders/1kj398ZW3zwk-KMDA0_Y5tq6Gr09oFDbZ. This file allows you to skip the fine tuning process.**
+**Pre-trained weight files are stored at https://drive.google.com/drive/folders/1kj398ZW3zwk-KMDA0_Y5tq6Gr09oFDbZ. This file allows you to skip the fine tuning process.**
 
 * First build a binary classifier using the pretrained resnet50 structure. As with the structure in the [Learning Deep Features for Discriminative Localization](https://arxiv.org/pdf/1512.04150.pdf), I removed all layers after the activation layer with spatial resoultion of 14x14, and added a convolution layer of 3x3 size instead. The last few layers of the network have the following structure.
 
@@ -59,7 +59,7 @@ ________________________________________________________________________________
 reshape_2 (Reshape)             (None, 224, 224, 2)  0           cam_cls[0][0]                    
 ```
 
-* Load the weight we learned earlier on this network. Classifiers and CAM networks have different structures. However, since the layer naming is set in advance, the weight file can be used in both networks in common.
+* Load the weight we learned earlier on this network. ``image classifiers`` and ``CAM networks`` have different structures. However, since the layer naming is set in advance, the weight file can be used in both networks in common.
 
 * Entering image on this network will generate a text activation map. 
 
